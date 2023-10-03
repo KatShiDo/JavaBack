@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.mirea</groupId>
 	<artifactId>JavaBack</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>JavaBack</name>
 	<description>For practices 5 to 7</description>
 	<properties>
