@@ -1,9 +1,9 @@
 package com.mirea.JavaBack.Services;
 
-import com.mirea.JavaBack.Domain.Entities.Client;
+import com.mirea.JavaBack.Domain.Entities.User;
 import com.mirea.JavaBack.Domain.Enums.StatusCode;
 import com.mirea.JavaBack.Domain.Response.BaseResponse;
-import com.mirea.JavaBack.Repositories.ClientRepository;
+import com.mirea.JavaBack.Repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientService {
+public class UserService {
 
-    private final ClientRepository clientRepository;
+    private final UserRepository userRepository;
 
-    public BaseResponse<List<Client>> getAll() {
+    public BaseResponse<List<User>> getAll() {
         try {
-            var clients = clientRepository.findAll();
+            var clients = userRepository.findAll();
             if (clients.isEmpty()) {
                 return new BaseResponse<>("Found 0 elements", clients, StatusCode.Ok);
             }
@@ -28,9 +28,9 @@ public class ClientService {
         }
     }
 
-    public BaseResponse<Client> getById(Long id) {
+    public BaseResponse<User> getById(Long id) {
         try {
-            var client = clientRepository.findById(id).orElse(null);
+            var client = userRepository.findById(id).orElse(null);
             if (client == null) {
                 return new BaseResponse<>("Client not found", null, StatusCode.NotFound);
             }
@@ -41,24 +41,24 @@ public class ClientService {
         }
     }
 
-    public BaseResponse<Client> create(Client client) {
+    public BaseResponse<User> create(User user) {
         try {
-            client = clientRepository.save(client);
-            return new BaseResponse<>(null, client, StatusCode.Ok);
+            user = userRepository.save(user);
+            return new BaseResponse<>(null, user, StatusCode.Ok);
         }
         catch (Exception e) {
             return new BaseResponse<>(e.getMessage(), null, StatusCode.InternalServerError);
         }
     }
 
-    public BaseResponse<Client> update(Client client) {
+    public BaseResponse<User> update(User user) {
         try {
-            var clientFromDb = clientRepository.findById(client.getId()).orElse(null);
+            var clientFromDb = userRepository.findById(user.getId()).orElse(null);
             if (clientFromDb == null) {
                 return new BaseResponse<>("Client not found", null, StatusCode.NotFound);
             }
-            client = clientRepository.save(client);
-            return new BaseResponse<>(null, client, StatusCode.Ok);
+            user = userRepository.save(user);
+            return new BaseResponse<>(null, user, StatusCode.Ok);
         }
         catch (Exception e) {
             return new BaseResponse<>(e.getMessage(), null, StatusCode.InternalServerError);
@@ -67,7 +67,7 @@ public class ClientService {
 
     public BaseResponse<Boolean> delete(Long id) {
         try {
-            clientRepository.deleteById(id);
+            userRepository.deleteById(id);
             return new BaseResponse<>(null, true, StatusCode.Ok);
         }
         catch (Exception e) {
