@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -25,6 +27,8 @@ public class Book {
     private String sellerNumber;
 
     private String author;
+
+    private int count;
 
     private final TypeOfProduct typeOfProduct = TypeOfProduct.Book;
 }

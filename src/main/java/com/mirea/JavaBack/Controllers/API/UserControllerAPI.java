@@ -1,8 +1,5 @@
 package com.mirea.JavaBack.Controllers.API;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.mirea.JavaBack.Domain.Entities.User;
 import com.mirea.JavaBack.Services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @AllArgsConstructor
-public class UserController {
+public class UserControllerAPI {
 
     private UserService userService;
 

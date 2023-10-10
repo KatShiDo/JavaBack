@@ -1,6 +1,10 @@
 package com.mirea.JavaBack.Configuration;
 
+import com.mirea.JavaBack.Domain.Entities.User;
+import com.mirea.JavaBack.Repositories.UserRepository;
 import com.mirea.JavaBack.Services.CustomUserDetailsService;
+import com.mirea.JavaBack.Services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -8,12 +12,14 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Bean
@@ -36,6 +42,8 @@ public class SecurityConfig {
                 .logout()
                 .permitAll()
                 .and()
+                .csrf()
+                .disable()
                 .build();
     }
 

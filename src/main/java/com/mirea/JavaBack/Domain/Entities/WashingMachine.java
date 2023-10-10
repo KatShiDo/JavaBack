@@ -26,6 +26,8 @@ public class WashingMachine {
 
     private String sellerNumber;
 
+    private int count;
+
     private final TypeOfProduct typeOfProduct = TypeOfProduct.WashingMachine;
 
     private double cost;

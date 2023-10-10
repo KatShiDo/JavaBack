@@ -2,7 +2,6 @@ package com.mirea.JavaBack.Controllers.API;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.mirea.JavaBack.Domain.Entities.WashingMachine;
 import com.mirea.JavaBack.Services.WashingMachineService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @AllArgsConstructor
-public class WashingMachineController {
+public class WashingMachineControllerAPI {
 
     private WashingMachineService washingMachineService;
 

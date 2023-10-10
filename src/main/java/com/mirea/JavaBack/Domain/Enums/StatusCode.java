@@ -4,5 +4,6 @@ public enum StatusCode {
 
     Ok,
     InternalServerError,
-    NotFound
+    NotFound,
+    AlreadyExists
 }

@@ -26,6 +26,8 @@ public class Telephone {
 
     private String sellerNumber;
 
+    private int count;
+
     private final TypeOfProduct typeOfProduct = TypeOfProduct.Telephone;
 
     private double cost;

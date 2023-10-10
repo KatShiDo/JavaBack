@@ -2,7 +2,6 @@ package com.mirea.JavaBack.Controllers.API;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.mirea.JavaBack.Domain.Entities.Telephone;
 import com.mirea.JavaBack.Services.TelephoneService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @AllArgsConstructor
-public class TelephoneController {
+public class TelephoneControllerAPI {
 
     private TelephoneService telephoneService;
 
