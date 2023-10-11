@@ -30,5 +30,15 @@ public class Book {
 
     private int count;
 
+    public void increaseCount() {
+        count += 1;
+    }
+
+    public void decreaseCount() {
+        if (count >= 1) {
+            count -= 1;
+        }
+    }
+
     private final TypeOfProduct typeOfProduct = TypeOfProduct.Book;
 }

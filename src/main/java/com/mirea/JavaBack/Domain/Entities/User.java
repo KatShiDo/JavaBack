@@ -48,8 +48,20 @@ public class User implements UserDetails {
         books.put(bookId.toString(), 1);
     }
 
+    public void increaseBook(Long bookId) {
+        books.put(bookId.toString(), books.get(bookId.toString()) + 1);
+    }
+
+    public void decreaseBook(Long bookId) {
+        books.put(bookId.toString(), books.get(bookId.toString()) - 1);
+    }
+
     public void deleteBook(Long bookId) {
         books.remove(bookId.toString());
+    }
+
+    public void emptyBooks() {
+        books = new HashMap<>();
     }
 
     @ElementCollection

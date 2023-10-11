@@ -14,6 +14,17 @@
                 Войти
             </a></p>
         </#if>
+        <#if currentUser.isAdmin()>
+            <p><a href="/admin">Панель администратора</a> </p>
+        </#if>
+        <p><a href="/books">Посмотреть книги</a> </p>
+        <p><a href="/telephones">Посмотреть телефоны</a> </p>
+        <p><a href="/washingMachines">Посмотреть стиральные машины</a> </p>
+        <#if currentUser.login??>
+            <p><a href="/cart">Корзина</a> </p>
+        <#else>
+            <p><a href="/login">Корзина</a> </p>
+        </#if>
         <#nested/>
     </body>
     </html>

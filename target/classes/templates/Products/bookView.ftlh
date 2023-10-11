@@ -1,6 +1,6 @@
 <#import "../Shared/layout.ftlh" as layout>
 <@layout.template currentUser=user>
-    <table>
+    <table border="1">
         <tr>
             <td>Название</td>
             <td>Автор</td>

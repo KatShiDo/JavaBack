@@ -57,9 +57,15 @@ public class BookController {
     @GetMapping("/books/cart/add/{bookId}")
     public String addToCart(@PathVariable Long bookId, Principal principal, Model model) {
         var responseUser = userService.getByPrincipal(principal);
-        responseUser.data.addBook(bookId);
-        userService.update(responseUser.data);
+        var responseBook = bookService.getById(bookId);
+        if (responseBook.data.getCount() >= 1) {
+            responseUser.data.addBook(bookId);
+            userService.update(responseUser.data);
+            responseBook.data.decreaseCount();
+            bookService.update(responseBook.data);
+        }
         return "redirect:/books";
+
     }
 
     @GetMapping("/books/cart/delete/{bookId}")
@@ -67,7 +73,34 @@ public class BookController {
         var responseUser = userService.getByPrincipal(principal);
         responseUser.data.deleteBook(bookId);
         userService.update(responseUser.data);
+        var responseBook = bookService.getById(bookId);
+        responseBook.data.increaseCount();
+        bookService.update(responseBook.data);
         return "redirect:/books";
+    }
+
+    @GetMapping("/books/cart/increase/{bookId}")
+    public String increase(@PathVariable Long bookId, Principal principal, Model model) {
+        var responseBook = bookService.getById(bookId);
+        if (responseBook.data.getCount() >= 1) {
+            var responseUser = userService.getByPrincipal(principal);
+            responseUser.data.increaseBook(bookId);
+            userService.update(responseUser.data);
+            responseBook.data.decreaseCount();
+            bookService.update(responseBook.data);
+        }
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/books/cart/decrease/{bookId}")
+    public String decrease(@PathVariable Long bookId, Principal principal, Model model) {
+        var responseUser = userService.getByPrincipal(principal);
+        responseUser.data.decreaseBook(bookId);
+        userService.update(responseUser.data);
+        var responseBook = bookService.getById(bookId);
+        responseBook.data.increaseCount();
+        bookService.update(responseBook.data);
+        return "redirect:/cart";
     }
 
     @PostMapping("/books/create")

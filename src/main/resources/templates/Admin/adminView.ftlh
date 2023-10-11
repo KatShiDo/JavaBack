@@ -1,6 +1,6 @@
 <#import "../Shared/layout.ftlh" as layout>
 <@layout.template currentUser=user>
-    <h3>Books</h3>
+    <h3>Книги</h3>
     <#if books??>
         <table border="1">
             <tr>
@@ -23,13 +23,13 @@
             </#list>
         </table>
     </#if>
-    <h3>Create book</h3>
+    <h3>Создать книгу</h3>
     <form action="/books/create" method="post">
-        <label for="title">Название</label><input type="text" id="title" name="title"><br>
-        <label for="cost">Стоимость</label><input type="text" id="cost" name="cost"><br>
-        <label for="sellerNumber">Номер продавца</label><input type="text" id="sellerNumber" name="sellerNumber"><br>
-        <label for="author">Автор</label><input type="text" id="author" name="author"><br>
-        <label for="count">Количество</label><input type="text" id="count" name="count"><br>
+        <label for="title">Название </label><input type="text" id="title" name="title"><br><br>
+        <label for="cost">Стоимость </label><input type="text" id="cost" name="cost"><br><br>
+        <label for="sellerNumber">Номер продавца </label><input type="text" id="sellerNumber" name="sellerNumber"><br><br>
+        <label for="author">Автор </label><input type="text" id="author" name="author"><br><br>
+        <label for="count">Количество </label><input type="text" id="count" name="count"><br><br>
         <button type="submit">Создать</button>
     </form>
 </@layout.template>
