@@ -2,11 +2,11 @@
 <@layout.template currentUser=user>
     <table>
         <tr>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Cost</td>
-            <td>SellerNumber</td>
-            <td>Cart</td>
+            <td>Название</td>
+            <td>Автор</td>
+            <td>Стоимость</td>
+            <td>Номер продавца</td>
+            <td>Корзина</td>
         </tr>
         <#list books as book>
             <tr>
@@ -14,12 +14,18 @@
                 <td>${book.author}</td>
                 <td>${book.cost}</td>
                 <td>${book.sellerNumber}</td>
-                <#if user.login??>
-                    <#if user.books.get(book.id)??>
-                        <td><a href="/books/cart/delete/${book.id}">Delete from cart</a> </td>
-                    </#if>
+                <#if userAuthorized>
+                    <#if userBooks??>
+                        <#if userBooks["${book.id}"]??>
+                            <td><a href="/books/cart/delete/${book.id}">Удалить из корзины</a> </td>
+                        <#else>
+                            <td><a href="/books/cart/add/${book.id}">Добавить в корзину</a></td>
+                        </#if>
                     <#else>
-                        <td><a href="/books/cart/add/${book.id}">Add to cart</a></td>
+                        <td><a href="/books/cart/add/${book.id}">Добавить в корзину</a></td>
+                    </#if>
+                <#else>
+                    <td><a href="/login">Добавить в корзину</a> </td>
                 </#if>
             </tr>
         </#list>

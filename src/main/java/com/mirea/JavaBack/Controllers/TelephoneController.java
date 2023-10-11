@@ -15,8 +15,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class TelephoneController {
 
-    private TelephoneService telephoneService;
-    private UserService userService;
+    private final TelephoneService telephoneService;
+    private final UserService userService;
 
     @GetMapping("/telephones")
     public String telephones(Principal principal, Model model) {

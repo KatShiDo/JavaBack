@@ -42,14 +42,14 @@ public class User implements UserDetails {
     }
 
     @ElementCollection
-    private Map<Integer, Integer> books = new HashMap<>();
+    private Map<String, Integer> books = new HashMap<>();
 
-    public void addBook(Integer bookId) {
-        books.put(bookId, 1);
+    public void addBook(Long bookId) {
+        books.put(bookId.toString(), 1);
     }
 
-    public void deleteBook(Integer bookId) {
-        books.remove(bookId);
+    public void deleteBook(Long bookId) {
+        books.remove(bookId.toString());
     }
 
     @ElementCollection

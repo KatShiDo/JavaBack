@@ -18,13 +18,13 @@ import java.security.Principal;
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class AdminController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private BookService bookService;
+    private final BookService bookService;
 
-    private TelephoneService telephoneService;
+    private final TelephoneService telephoneService;
 
-    private WashingMachineService washingMachineService;
+    private final WashingMachineService washingMachineService;
 
     @GetMapping("/admin")
     public String adminPage(Principal principal, Model model) {

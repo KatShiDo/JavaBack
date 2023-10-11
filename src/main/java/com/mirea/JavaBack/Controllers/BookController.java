@@ -5,6 +5,7 @@ import com.mirea.JavaBack.Domain.Entities.User;
 import com.mirea.JavaBack.Domain.Enums.StatusCode;
 import com.mirea.JavaBack.Services.BookService;
 import com.mirea.JavaBack.Services.UserService;
+import freemarker.template.Configuration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +20,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class BookController {
 
-    private BookService bookService;
-    private UserService userService;
+    private final BookService bookService;
+    private final UserService userService;
 
     @GetMapping("/books")
     public String books(Principal principal, Model model) {
@@ -37,16 +38,24 @@ public class BookController {
         if (responseUser.getStatusCode() == StatusCode.Ok) {
             model.addAttribute("user", responseUser.data);
             model.addAttribute("userAuthorized", true);
+            if (responseUser.data.getBooks().isEmpty()) {
+                model.addAttribute("hasBooks", false);
+            }
+            else {
+                model.addAttribute("hasBooks", true);
+                model.addAttribute("userBooks", responseUser.data.getBooks());
+            }
         }
         else {
             model.addAttribute("user", new User());
             model.addAttribute("userAuthorized", false);
+            model.addAttribute("hasBooks", false);
         }
         return "Products/bookView";
     }
 
     @GetMapping("/books/cart/add/{bookId}")
-    public String addToCart(@PathVariable Integer bookId, Principal principal, Model model) {
+    public String addToCart(@PathVariable Long bookId, Principal principal, Model model) {
         var responseUser = userService.getByPrincipal(principal);
         responseUser.data.addBook(bookId);
         userService.update(responseUser.data);
@@ -54,7 +63,7 @@ public class BookController {
     }
 
     @GetMapping("/books/cart/delete/{bookId}")
-    public String deleteFromCart(@PathVariable Integer bookId, Principal principal, Model model) {
+    public String deleteFromCart(@PathVariable Long bookId, Principal principal, Model model) {
         var responseUser = userService.getByPrincipal(principal);
         responseUser.data.deleteBook(bookId);
         userService.update(responseUser.data);
@@ -62,7 +71,7 @@ public class BookController {
     }
 
     @PostMapping("/books/create")
-    public String createBook(@RequestParam Book book, Principal principal, Model model) {
+    public String createBook(Book book, Principal principal, Model model) {
         bookService.create(book);
         return "redirect:/admin";
     }

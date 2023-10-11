@@ -15,8 +15,8 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class WashingMachineController {
 
-    private WashingMachineService washingMachineService;
-    private UserService userService;
+    private final WashingMachineService washingMachineService;
+    private final UserService userService;
 
     @GetMapping("/washingMachines")
     public String washingMachines(Principal principal, Model model) {

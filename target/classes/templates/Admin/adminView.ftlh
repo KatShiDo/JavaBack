@@ -1,30 +1,35 @@
 <#import "../Shared/layout.ftlh" as layout>
 <@layout.template currentUser=user>
     <h3>Books</h3>
-    <table>
-        <tr>
-            <td>Title</td>
-            <td>Author</td>
-            <td>Cost</td>
-            <td>SellerNumber</td>
-            <td>Delete</td>
-        </tr>
-        <#list books as book>
+    <#if books??>
+        <table border="1">
             <tr>
-                <td>${book.title}</td>
-                <td>${book.author}</td>
-                <td>${book.cost}</td>
-                <td>${book.sellerNumber}</td>
-                <td><a href="/books/delete/${book.id}">Delete</a></td>
+                <td>Название</td>
+                <td>Автор</td>
+                <td>Стоимость</td>
+                <td>Номер продавца</td>
+                <td>Количество</td>
+                <td>Удалить</td>
             </tr>
-        </#list>
-    </table>
+            <#list books as book>
+                <tr>
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.cost}</td>
+                    <td>${book.sellerNumber}</td>
+                    <td>${book.count}</td>
+                    <td><a href="/books/delete/${book.id}">Удалить</a></td>
+                </tr>
+            </#list>
+        </table>
+    </#if>
     <h3>Create book</h3>
     <form action="/books/create" method="post">
-        <label for="title">Title</label><input type="text" id="title">
-        <label for="cost">Cost</label><input type="text" id="cost">
-        <label for="sellerNumber">Seller number</label><input type="text" id="sellerNumber">
-        <label for="author">Author</label><input type="text" id="author">
-        <label for="count">Count</label><input type="text" id="count">
+        <label for="title">Название</label><input type="text" id="title" name="title"><br>
+        <label for="cost">Стоимость</label><input type="text" id="cost" name="cost"><br>
+        <label for="sellerNumber">Номер продавца</label><input type="text" id="sellerNumber" name="sellerNumber"><br>
+        <label for="author">Автор</label><input type="text" id="author" name="author"><br>
+        <label for="count">Количество</label><input type="text" id="count" name="count"><br>
+        <button type="submit">Создать</button>
     </form>
 </@layout.template>
