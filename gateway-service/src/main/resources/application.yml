@@ -10,11 +10,15 @@ spring:
           enabled: true
       routes:
         - id: books
-          uri: http://localhost:8090
+          uri: lb://MARKETPLACE
           predicates:
             - Path=/books/**
+          filters:
+            - AuthenticationFilter
+
         - id: auth
-          uri:
-            http://localhost:8070
+          uri: lb://IDENTITY
           predicates:
             - Path=/auth/**
+          filters:
+            - AuthenticationFilter

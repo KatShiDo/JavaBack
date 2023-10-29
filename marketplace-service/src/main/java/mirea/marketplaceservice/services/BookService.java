@@ -1,6 +1,8 @@
 package mirea.marketplaceservice.services;
 
 import lombok.RequiredArgsConstructor;
+import mirea.marketplaceservice.client.UserInfoClient;
+import mirea.marketplaceservice.domain.dto.UserInfo;
 import mirea.marketplaceservice.domain.entities.Book;
 import mirea.marketplaceservice.repositories.BookRepository;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final UserInfoClient userInfoClient;
 
     public List<Book> getAll() {
         return bookRepository.findAll();
@@ -21,8 +24,8 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
-    public Book create(Book book) {
-        return bookRepository.save(book);
+    public void create(Book book) {
+        bookRepository.save(book);
     }
 
     public Book update(Book book) {
@@ -35,5 +38,12 @@ public class BookService {
 
     public void delete(Long id) {
         bookRepository.deleteById(id);
+    }
+
+    public void addToCart(Long bookId, String token) {
+        var book = bookRepository.findById(bookId).orElse(null);
+        UserInfo user = userInfoClient.getUser("secret", "Bearer " + token);
+        user.addBook(bookId);
+        //userInfoClient.saveUser(user, "secret", "Bearer " + token);
     }
 }

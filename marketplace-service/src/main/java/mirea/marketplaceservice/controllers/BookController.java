@@ -23,7 +23,13 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAll() {
+    public ResponseEntity<List<Book>> getAll(@RequestHeader("token") String token) {
+        System.out.println("////////////////" + token);
         return ResponseEntity.ok(bookService.getAll());
+    }
+
+    @PostMapping("/cart/add/{bookId}")
+    public void addToCard(@PathVariable Long bookId, @RequestHeader("token") String token) {
+        bookService.addToCart(bookId, token);
     }
 }
