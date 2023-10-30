@@ -39,7 +39,7 @@ public class AuthConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/register", "/auth/token", "/auth/validate")
+                .requestMatchers("/auth/*")
                 .permitAll()
                 .and()
                 .build();

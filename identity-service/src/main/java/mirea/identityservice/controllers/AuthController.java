@@ -55,7 +55,7 @@ public class AuthController {
 
     @GetMapping("/get")
     public UserInfo getUser(@RequestParam String secret, @RequestHeader("Authorization") String token) {
-        if (Objects.equals(secret, "secret")) {
+        if (Objects.equals(secret, "123")) {
             var user = authService.findByToken(token);
             if (user == null) {
                 return null;
