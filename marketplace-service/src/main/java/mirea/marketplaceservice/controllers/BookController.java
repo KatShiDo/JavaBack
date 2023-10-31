@@ -16,12 +16,6 @@ public class BookController {
 
     private final BookService bookService;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody Book book) {
-        bookService.create(book);
-    }
-
     @GetMapping
     public ResponseEntity<List<Book>> getAll(@RequestHeader("token") String token) {
         System.out.println("////////////////" + token);
@@ -29,7 +23,22 @@ public class BookController {
     }
 
     @PostMapping("/cart/add/{bookId}")
-    public void addToCard(@PathVariable Long bookId, @RequestHeader("token") String token) {
-        bookService.addToCart(bookId, token);
+    public String addToCard(@PathVariable Long bookId, @RequestHeader("token") String token) {
+        return bookService.addToCart(bookId, token);
+    }
+
+    @GetMapping("/upgrade")
+    public String upgradeRole(@RequestHeader("token") String token) {
+        return bookService.upgradeRole(token);
+    }
+
+    @PostMapping("/add")
+    public String addBook(@RequestHeader("token") String token, @RequestBody Book book) {
+        return bookService.create(book, token);
+    }
+
+    @PostMapping("/delete/{bookId}")
+    public String deleteBook(@RequestHeader("token") String token, @PathVariable Long bookId) {
+        return bookService.delete(bookId, token);
     }
 }

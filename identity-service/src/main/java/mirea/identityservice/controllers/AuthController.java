@@ -54,7 +54,7 @@ public class AuthController {
     }
 
     @GetMapping("/get")
-    public UserInfo getUser(@RequestParam String secret, @RequestHeader("Authorization") String token) {
+    public UserInfo getUser(@RequestParam String secret, @RequestHeader("token") String token) {
         if (Objects.equals(secret, "123")) {
             var user = authService.findByToken(token);
             if (user == null) {
@@ -75,13 +75,33 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/get/{username}")
+    public UserInfo getUserByUsername(@RequestHeader("token") String token, @PathVariable String username) {
+        var admin = authService.findByToken(token);
+        if (admin.getRole() == Role.ROLE_ADMIN) {
+            var user = authService.findByUsername(username);
+            return UserInfo
+                    .builder()
+                    .username(username)
+                    .email(user.getEmail())
+                    .role(user.getRole().toString())
+                    .books(user.getBooks())
+                    .build();
+        }
+        else {
+            return null;
+        }
+    }
+
     @PostMapping("/save")
-    public void saveUser(@RequestBody UserInfo userInfo, @RequestParam String secret, @HeaderParam("Authorization") String token) {
-        if (Objects.equals(secret, "secret")) {
+    public String saveUser(@RequestBody UserInfo userInfo, @RequestParam String secret, @RequestHeader("token") String token) {
+        if (Objects.equals(secret, "123")) {
             var user = authService.findByUsername(userInfo.getUsername());
             user.setBooks(userInfo.getBooks());
             user.setRole(Role.valueOf(userInfo.getRole()));
             authService.save(user);
+            return "saved";
         }
+        return null;
     }
 }

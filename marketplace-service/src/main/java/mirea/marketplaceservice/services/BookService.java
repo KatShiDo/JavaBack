@@ -19,6 +19,7 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final UserInfoClient userInfoClient;
+    private RestTemplate restTemplate = new RestTemplate();
 
     public List<Book> getAll() {
         return bookRepository.findAll();
@@ -28,8 +29,18 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
-    public void create(Book book) {
-        bookRepository.save(book);
+    public String create(Book book, String token) {
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(new HttpHeaderInterceptor("Authorization", "Bearer " + token));
+        restTemplate.setInterceptors(interceptors);
+        UserInfo response = restTemplate.getForObject("http://localhost:8080/auth/get?secret=123", UserInfo.class);
+        if (response.getRole().equals("ROLE_SELLER") || response.getRole().equals("ROLE_ADMIN")) {
+            bookRepository.save(book);
+            return "success";
+        }
+        else {
+            return "no access";
+        }
     }
 
     public Book update(Book book) {
@@ -40,19 +51,37 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public void delete(Long id) {
-        bookRepository.deleteById(id);
+    public String delete(Long id, String token) {
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(new HttpHeaderInterceptor("Authorization", "Bearer " + token));
+        restTemplate.setInterceptors(interceptors);
+        UserInfo response = restTemplate.getForObject("http://localhost:8080/auth/get?secret=123", UserInfo.class);
+        if (response.getRole().equals("ROLE_SELLER") || response.getRole().equals("ROLE_ADMIN")) {
+            bookRepository.deleteById(id);
+            return "deleted";
+        }
+        else {
+            return "no access";
+        }
     }
 
-    public void addToCart(Long bookId, String token) {
-        var book = bookRepository.findById(bookId).orElse(null);
-        UserInfo user = userInfoClient.getUser("123", "Bearer " + token);
-//        RestTemplate restTemplate = new RestTemplate();
-//        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-//        interceptors.add(new HttpHeaderInterceptor("Authorization", "Bearer " + token));
-//        restTemplate.setInterceptors(interceptors);
-//        UserInfo response = restTemplate.getForObject("http://localhost:8070/auth/get?secret=secret", UserInfo.class);
-        user.addBook(bookId);
+    public String addToCart(Long bookId, String token) {
+        //UserInfo user = userInfoClient.getUser("123", "Bearer " + token);
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(new HttpHeaderInterceptor("Authorization", "Bearer " + token));
+        restTemplate.setInterceptors(interceptors);
+        UserInfo response = restTemplate.getForObject("http://localhost:8080/auth/get?secret=123", UserInfo.class);
+        response.addBook(bookId);
+        return restTemplate.postForObject("http://localhost:8080/auth/save?secret=123", response, String.class);
         //userInfoClient.saveUser(user, "secret", "Bearer " + token);
+    }
+
+    public String upgradeRole(String token) {
+        List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
+        interceptors.add(new HttpHeaderInterceptor("Authorization", "Bearer " + token));
+        restTemplate.setInterceptors(interceptors);
+        UserInfo response = restTemplate.getForObject("http://localhost:8080/auth/get?secret=123", UserInfo.class);
+        response.setRole("ROLE_SELLER");
+        return restTemplate.postForObject("http://localhost:8080/auth/save?secret=123", response, String.class);
     }
 }

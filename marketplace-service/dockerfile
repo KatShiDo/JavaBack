@@ -1,0 +1,7 @@
+FROM openjdk:21
+
+ADD target/marketplace-service-0.0.1-SNAPSHOT.jar /home/marketplace.jar
+
+WORKDIR /home
+
+CMD ["java", "-jar", "marketplace.jar"]

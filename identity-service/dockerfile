@@ -1,0 +1,7 @@
+FROM openjdk:21
+
+ADD target/identity-service-0.0.1-SNAPSHOT.jar /home/identity.jar
+
+WORKDIR /home
+
+CMD ["java", "-jar", "identity.jar"]
